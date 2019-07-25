@@ -1,5 +1,5 @@
 @extends('layout.default')
-@section('title', 'List User')
+@section('title', 'Edit user')
 @section('content')
     <div class="col-12"><h2>Edit info user {{$user->id}}</h2></div>
     <div class="col-12">
@@ -8,30 +8,39 @@
             {{ method_field('PUT')}}
             <div class="form-group">
                 <label for="fullName">Full name:</label>
-                <input type="text" class="form-control" id="nameUser" value="{{$user->full_name}}" name="nameUser">
+                <input type="text" class="form-control" id="full_name" value="{{$user->full_name}}" name="full_name">
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="email" class="form-control" id="emailUser" placeholder="abc@example.com" value="{{$user->email}}" name="emailUser">
+                <input type="text" class="form-control" id="email_user" placeholder="abc@example.com" value="{{$user->email}}" name="email_user">
             </div>
             <div class="form-group">
                 <label for="">Phone number:</label>
-                <input type="text" class="form-control" id="phoneUser" value="{{$user->phone_number}}" name="phoneUser">
+                <input type="text" class="form-control" id="phone_number" value="{{$user->phone_number}}" name="phone_number">
             </div>
             <div class="form-group">
                 <label for="">Company name:</label>
-                <input type="text" class="form-control" id="companyUser" value="{{$user->company_name}}" name="companyUser">
+                <input type="text" class="form-control" id="company_name" value="{{$user->company_name}}" name="company_name">
             </div>
 
             <div class="form-group">
                 <label for="content">Content:</label>
-                <textarea class="form-control" id="contentUser" rows="3" name="contentUser">{{$user->content}}</textarea>
+                <textarea class="form-control" id="content_user" rows="3" name="content_user">{{$user->content}}</textarea>
             </div>
             <div class="form-group">
                 <button class="btn btn-primary" type="submit" style= "cursor:pointer">Save changes</button>
             </div>
         </form>
     </div>
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
 
 @endsection

@@ -14,6 +14,7 @@ class User extends Model
      *
      * @var array
      */
+    protected $table = 'users';
     protected $fillable = [
         'id', 'email', 'full_name','company_name','phone_number','content'
     ];

@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Session;
-use lluminate\Foundation\Validation\ValidatesRequests;
+use App\User;
+use App\Http\Requests\UserRequest;
 
 class UserController extends Controller
 {
@@ -20,7 +17,6 @@ class UserController extends Controller
     {
         $users = DB::table('users')->get();
         return view('pageUser', ['listUser' => $users]);
-
     }
 
     /**
@@ -30,7 +26,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('createUser');
     }
 
     /**
@@ -39,9 +35,11 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        //
+        $request->validated();
+        User::create($request->all());
+        return redirect('user')->with('message', __('messages.user_create'));
     }
 
     /**
@@ -52,8 +50,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = DB::table('users')->where('id', '=', $id)->first();
-        return view('infoUser',['user'=>$user]);
+        $user = User::find($id);
+        return view('infoUser', ['user' => $user]);
     }
 
     /**
@@ -64,8 +62,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = DB::table('users')->where('id', '=', $id)->first();
-        return view('editUser',['user'=>$user]);
+        $user = User::find($id);
+        return view('editUser', ['user' => $user]);
     }
 
     /**
@@ -75,13 +73,17 @@ class UserController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, $id)
     {
-        $validatedData = $request->validate([
-            'title' => 'required|unique:posts|max:255',
-            'body' => 'required',
+        $request->validated();
+        User::where('id', '=', $id)->update([
+            'email' => $request->email_user,
+            'full_name' => $request->full_name,
+            'phone_number' => $request->phone_number,
+            'company_name' => $request->company_name,
+            'content' => $request->content_user
         ]);
-
+        return redirect('user')->with('message', __('messages.user_update'));
     }
 
     /**
@@ -93,7 +95,6 @@ class UserController extends Controller
     public function destroy($id)
     {
         DB::table('users')->where('id', '=', $id)->delete();
-        return redirect('user')->with('display_notification', 'User ' . $id . ' deleted successfully!');
-
+        return redirect('user')->with('message', __('messages.user_destroy'));
     }
 }

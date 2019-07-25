@@ -3,8 +3,8 @@
 @section('content')
     <div class="d-flex flex-column">
         <h2> List User</h2>
-        @if (Session::has('display_notification'))
-            <p style="color: red">{{ Session::get('display_notification') }}</p>
+        @if (Session::has('message'))
+            <p style="color: red">{{ Session::get('message') }}</p>
         @endif
     </div>
     <table class="table table-bordered table-hover ">
@@ -45,7 +45,9 @@
         @endforeach
         </tbody>
     </table>
-    <button class="btn btn-primary" style= "cursor:pointer"> Add new user</button>
+    <form method="GET" action="{{route('user.create')}}">
+        <button class="btn btn-primary" style="cursor:pointer"> Add new user</button>
+    </form>
 @endsection
 
 

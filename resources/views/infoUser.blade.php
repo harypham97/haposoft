@@ -11,5 +11,6 @@
             <li>Company name: {{$user->company_name}}</li>
             <li>Content: {{$user->content}}</li>
             <li>Create at: {{$user->created_at}}</li>
+            <li>Update at: {{$user->updated_at}}</li>
         </ul>
 @endsection
