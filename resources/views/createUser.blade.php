@@ -3,7 +3,7 @@
 @section('content')
     <div class="col-12"><h2>Add new user </h2></div>
     <div class="col-12">
-        <form method="POST" action="{{route('user.store')}}">
+        <form method="POST" action="{{route('user.store')}}" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="form-group">
                 <label for="full_user">Full name:</label>
@@ -25,6 +25,10 @@
             <div class="form-group">
                 <label for="content_user">Content:</label>
                 <textarea class="form-control" id="content_user" rows="3" name="content"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="image">Upload avatar:</label>
+                <input type="file" name="avatar" class="form-control">
             </div>
             <div class="form-group">
                 <button class="btn btn-primary" type="submit" style= "cursor:pointer">Save user</button>

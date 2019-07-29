@@ -16,7 +16,7 @@ class User extends Model
      */
     protected $table = 'users';
     protected $fillable = [
-        'id', 'email', 'full_name','company_name','phone_number','content'
+        'id', 'email', 'full_name','company_name','phone_number','content','avatar'
     ];
 
 

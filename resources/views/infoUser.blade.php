@@ -10,7 +10,12 @@
             <li>Phone number: {{$user->phone_number}}</li>
             <li>Company name: {{$user->company_name}}</li>
             <li>Content: {{$user->content}}</li>
+            <li>
+                Avatar: {{$user->avatar}}
+                <img src="{{$urlAvatar}}" alt="img avatar">
+
+            </li>
             <li>Create at: {{$user->created_at}}</li>
-            <li>Update at: {{$user->updated_at}}</li>
+            <li>Update at: {{$user->updated_at}} </li>
         </ul>
 @endsection
