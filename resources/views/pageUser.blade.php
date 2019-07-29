@@ -6,7 +6,13 @@
         @if (Session::has('message'))
             <p style="color: red">{{ Session::get('message') }}</p>
         @endif
+        <div>
+            <form method="GET" action="{{route('user.create')}}">
+                <button class="btn btn-primary" style="cursor:pointer"> Add new user</button>
+            </form>
+        </div>
     </div>
+
     <table class="table table-bordered table-hover ">
         <thead>
         <tr>
@@ -45,9 +51,8 @@
         @endforeach
         </tbody>
     </table>
-    <form method="GET" action="{{route('user.create')}}">
-        <button class="btn btn-primary" style="cursor:pointer"> Add new user</button>
-    </form>
+    {{ $listUser->links('pagination::bootstrap-4') }}
+
 @endsection
 
 

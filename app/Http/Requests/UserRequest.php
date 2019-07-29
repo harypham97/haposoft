@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class UserRequest extends FormRequest
 {
@@ -23,12 +25,32 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'email' => 'required|email|unique:users,email',
-            'full_name' => 'required|max:50',
-            'company_name' => 'required|max:50',
-            'phone_number' => 'required|numeric|unique:users,phone_number|digits_between:10,12',
-            'content' => 'required'
-        ];
+        switch ($this->method()) {
+            case 'POST':
+                {
+                    return [
+                        'full_name' => 'required|max:50',
+                        'email' => 'required|email|max:255|unique:users,email',
+                        'phone_number' => 'required|numeric|digits_between:10,12',
+                        'company_name' => 'required|max:50',
+                        'content' => 'required'
+                    ];
+                }
+            case 'PATCH':
+            case 'PUT':
+                {
+                    return [
+                        'full_name' => 'required|max:50',
+                        'phone_number' => 'required|numeric|digits_between:10,12',
+                        'company_name' => 'required|max:50',
+                        'content' => 'required',
+                        'email' => Rule::unique('users')->ignore($this->route()->user->id)
+                    ];
+                }
+            default:
+                break;
+        }
+
+
     }
 }

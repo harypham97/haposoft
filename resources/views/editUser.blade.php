@@ -12,7 +12,7 @@
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="text" class="form-control" id="email_user" placeholder="abc@example.com" value="{{$user->email}}" name="email_user">
+                <input type="text" class="form-control" id="email_user" placeholder="abc@example.com" value="{{$user->email}}" name="email">
             </div>
             <div class="form-group">
                 <label for="">Phone number:</label>
@@ -25,7 +25,7 @@
 
             <div class="form-group">
                 <label for="content">Content:</label>
-                <textarea class="form-control" id="content_user" rows="3" name="content_user">{{$user->content}}</textarea>
+                <textarea class="form-control" id="content_user" rows="3" name="content">{{$user->content}}</textarea>
             </div>
             <div class="form-group">
                 <button class="btn btn-primary" type="submit" style= "cursor:pointer">Save changes</button>
@@ -41,6 +41,5 @@
             </ul>
         </div>
     @endif
-
 
 @endsection

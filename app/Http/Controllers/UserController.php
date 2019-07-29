@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use App\User;
 use App\Http\Requests\UserRequest;
+use Config;
+
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -15,7 +18,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = DB::table('users')->get();
+        $users = User::paginate(Config::get('constants.number_per_page_users'));
         return view('pageUser', ['listUser' => $users]);
     }
 
@@ -73,16 +76,18 @@ class UserController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UserRequest $request, $id)
+    public function update( $id)
     {
-        $request->validated();
-        User::where('id', '=', $id)->update([
-            'email' => $request->email_user,
-            'full_name' => $request->full_name,
-            'phone_number' => $request->phone_number,
-            'company_name' => $request->company_name,
-            'content' => $request->content_user
-        ]);
+
+        dd(Illuminate\Http\Request::get('id'));
+
+//        User::where('id', '=', $id)->update([
+//            'email' => $request->email,
+//            'full_name' => $request->full_name,
+//            'phone_number' => $request->phone_number,
+//            'company_name' => $request->company_name,
+//            'content' => $request->get('content')
+//        ]);
         return redirect('user')->with('message', __('messages.user_update'));
     }
 
