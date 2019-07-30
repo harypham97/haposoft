@@ -4,7 +4,7 @@
 
 Route::get('/', function () {
 
-    return "fuck yaaa";
+    return "hello world";
 
 });
 
