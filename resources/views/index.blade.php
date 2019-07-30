@@ -12,19 +12,17 @@
             </form>
         </div>
     </div>
-
-    <table class="table table-bordered table-hover ">
+    <table class="table table-bordered table-hover table-user">
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Full name</th>
-            <th>Create at</th>
+            <th class="id-user">ID</th>
+            <th class="name-user">Full name</th>
+            <th class="create-user">Create at</th>
             <th class="w-25">Action</th>
         </tr>
         </thead>
         <tbody>
-
-        @foreach ($listUser as $user)
+        @foreach ($list_users as $user)
             <tr>
                 <td>{{$user->id}}</td>
                 <td>{{$user->full_name}}</td>
@@ -51,8 +49,7 @@
         @endforeach
         </tbody>
     </table>
-    {{ $listUser->links('pagination::bootstrap-4') }}
-
+    {{ $list_users->links('pagination::bootstrap-4') }}
 @endsection
 
 

@@ -21,7 +21,6 @@
                 <label for="company_name">Company name:</label>
                 <input type="text" class="form-control" id="company_name"  name="company_name">
             </div>
-
             <div class="form-group">
                 <label for="content_user">Content:</label>
                 <textarea class="form-control" id="content_user" rows="3" name="content"></textarea>
@@ -44,6 +43,4 @@
             </ul>
         </div>
     @endif
-
-
 @endsection

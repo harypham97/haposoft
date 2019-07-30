@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
 use App\User;
 use App\Http\Requests\UserRequest;
 use Config;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -17,7 +17,8 @@ class UserController extends Controller
     public function index()
     {
         $users = User::paginate(Config::get('constants.number_per_page_users'));
-        return view('pageUser', ['listUser' => $users]);
+        $list_users = ['list_users' => $users];
+        return view('index', $list_users);
     }
 
     /**
@@ -27,7 +28,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('createUser');
+        return view('create');
     }
 
     /**
@@ -38,8 +39,13 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        $request->validated();
-        User::create($request->all());
+        $path = null;
+        $input = $request->except('avatar', '_method', '_token');
+        if ($request->hasFile('avatar')) {
+            $path = $request->avatar->store('images', ['disk' => 'public']);
+            $input['avatar'] = $path;
+        }
+        User::create($input);
         return redirect('user')->with('message', __('messages.user_create'));
     }
 
@@ -51,9 +57,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::find($id);
-        $urlAvatar = url('/') . Config::get('constants.url_avatar') . $user->avatar;
-        return view('infoUser', ['user' => $user, 'urlAvatar' => $urlAvatar]);
+        $user = User::findOrFail($id);
+        $url_avatar = url('/') .Storage::url(''.$user->avatar);
+        return view('show', ['user' => $user, 'url_avatar' => $url_avatar]);
     }
 
     /**
@@ -64,8 +70,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::find($id);
-        return view('editUser', ['user' => $user]);
+        $user = User::findOrFail($id);
+        return view('edit', ['user' => $user]);
     }
 
     /**
@@ -79,12 +85,13 @@ class UserController extends Controller
     {
         $path = null;
         $input = $request->except('avatar', '_method', '_token');
+        $user = User::findOrFail($id);
         if ($request->hasFile('avatar')) {
-            $path = '' . $id . '.' . $request->file('avatar')->getClientOriginalName();
-            $request->avatar->storeAs('public/images', $path);
+            Storage::disk('public')->delete('/' . $user->avatar);
+            $path = $request->avatar->store('images', ['disk' => 'public']);
             $input['avatar'] = $path;
         }
-        User::where('id', '=', $id)->update($input);
+        $user->update($input);
         return redirect('user')->with('message', __('messages.user_update'));
     }
 
@@ -96,7 +103,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('users')->where('id', '=', $id)->delete();
+        User::findOrFail($id)->delete();
         return redirect('user')->with('message', __('messages.user_destroy'));
     }
 }

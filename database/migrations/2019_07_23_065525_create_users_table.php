@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('email');
             $table->string('full_name');
             $table->string('company_name')->nullable();
-            $table->string('phone_number',11)->nullable();
+            $table->string('phone_number', 11)->nullable();
             $table->text('content')->nullable();
             $table->timestamps();
         });
